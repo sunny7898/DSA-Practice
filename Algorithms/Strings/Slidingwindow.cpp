@@ -1,32 +1,36 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
-int LP, LT;
-string T, P;
-bool match(int L, int R){
-    for (int i = 0; i < LP; i++)
-        if (T[L + i] != P[i]) return false;
-    return true;
-
-}
-void slidingWindow(string T, string P){
-    LT = T.length();
-    LP = P.length();
-
-    for(int L = 0, R = LP-1; R<LT; L++, R++){
-        if (match(L, R))
-            cout << L << " ";
+vector<int> slidingWindow(string main, string pat){
+    vector<int> res;
+    for(int i=0; i<main.length()-pat.length()+1; i++){
+        int cnt = 0;
+        for(int j = 0; j< pat.length(); j++){
+            if (pat[j] == main[i+j]){
+                cnt++;
+            }
+        }
+        if (cnt == pat.length())
+            res.push_back(i);
     }
+    return res;
 }
+
 int main(){
-    int t;
-    cin >> t;
+    int T;
+    cin >> T;
 
     cin.ignore(); 
-    while (t--){
-        getline(cin, T);
-        getline(cin, P);
-        slidingWindow(T, P);
+    while (T--){
+        string main = ""; 
+        string pattern = "";
+        getline(cin, main);
+        getline(cin, pattern);
+        vector<int> idx = slidingWindow(main, pattern);
+        for(int it: idx){
+            cout << it << " ";
+        }
     }
     return 0;
 
